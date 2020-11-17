@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rchauhan9/fib-client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true rchauhan9/fib-client-test npm run test
+
+after_success:
+  - docker build -t rchauhan9/fib-client ./client
+  - docker build -t rchauhan9/fib-nginx ./nginx
+  - docker build -t rchauhan9/fib-server ./server
+  - docker build -t rchauhan9/fib-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push rchauhan9/fib-client
+  - docker push rchauhan9/fib-nginx
+  - docker push rchauhan9/fib-server
+  - docker push rchauhan9/fib-worker
