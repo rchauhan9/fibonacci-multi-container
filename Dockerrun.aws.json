@@ -1,0 +1,36 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "fib-client",
+      "image": "rchauhan9/fib-client",
+      "hostname": "client",
+      "essential": false
+    },
+    {
+      "name": "fib-server",
+      "image": "rchauhan9/fib-server",
+      "hostname": "api",
+      "essential": false
+    },
+    {
+      "name": "fib-worker",
+      "image": "rchauhan9/fib-worker",
+      "hostname": "worker",
+      "essential": false
+    },
+    {
+      "name": "fib-nginx",
+      "image": "rchauhan9/fib-nginx",
+      "hostname": "nginx",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["fib-client", "fib-server"]
+    }
+  ]
+}

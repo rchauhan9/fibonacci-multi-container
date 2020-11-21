@@ -22,3 +22,15 @@ after_success:
   - docker push rchauhan9/fib-nginx
   - docker push rchauhan9/fib-server
   - docker push rchauhan9/fib-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-2"
+  app: "fib-docker"
+  env: "FibDocker-env"
+  bucket_name: "elasticbeanstalk-eu-west-2-689346671119"
+  bucket_path: "fib-docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
